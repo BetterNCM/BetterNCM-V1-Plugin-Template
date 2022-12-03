@@ -30,7 +30,7 @@ jobs:
       - name: Install NCM and BetterNCM
         shell: pwsh
         run:
-            mkdir C:\betterncm;
+            mkdir C:\betterncm\plugins_dev;
             cp ./ "C:\betterncm\plugins_dev" -recurse -Force;
             Invoke-WebRequest https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_2.10.6.200601.exe -OutFile CloudMusic_Installer.exe;
             .\CloudMusic_Installer.exe /S;
@@ -38,18 +38,7 @@ jobs:
             Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile betterncm.dll;
             cp ./betterncm.dll "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll" -Force;
             
-      - name: Set up Python 3.7.9
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7.9
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -U tmate
-  #    - name: SSH connection to Actions
-    #    run: |
-    #        python -m tmate
       - name: Check if NCM Crashes
         shell: pwsh
         run:
@@ -59,6 +48,19 @@ jobs:
           if($ProcessActive -eq $null){
             throw "NCM 2.10.6 Crashed";
           }
+      - name: Set up Python 3.7.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -U tmate
+      - name: SSH connection to Actions
+        run: |
+            python -m tmate    
+      
       - uses: OrbitalOwen/desktop-screenshot-action@0.1
         name: take screenshot
         with:
