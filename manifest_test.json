@@ -5,7 +5,7 @@
     "injects": {
         "Main": [
             {
-                "file": "main.js"
+                "file": "main_test.js"
             }
         ]
     },
