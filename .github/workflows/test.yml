@@ -23,7 +23,7 @@ jobs:
               - 2.10.2.200154
     steps:
       - uses: actions/checkout@v3
-      - name: Install NCM ${{matrix.ncm-downloads}} and BetterNCM
+      - name: Copy plugin to plugins_dev
         shell: pwsh
         run:
             If(Test-Path "./manifest_test.json") {
@@ -33,7 +33,20 @@ jobs:
 
             mkdir C:\users\runneradmin\betterncm\plugins_dev;
             cp ./ "C:\users\runneradmin\betterncm\plugins_dev" -recurse -Force;
-            Invoke-WebRequest "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_${{matrix.ncm-downloads}}.exe" -OutFile CloudMusic_Installer.exe;
+
+      - name: Cache NCM Installer of ${{matrix.ncm-downloads}}
+        id: cache-ncm-installer
+        uses: actions/cache@v3
+        with:
+          path: ./CloudMusic_Installer.exe
+          key: ${{matrix.ncm-downloads}}-installer
+
+      - name: Download NCM Installer of ${{matrix.ncm-downloads}}
+        if: steps.cache-ncm-installer.outputs.cache-hit != 'true'
+        run: Invoke-WebRequest "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_${{matrix.ncm-downloads}}.exe" -OutFile CloudMusic_Installer.exe;
+      - name: Install NCM ${{matrix.ncm-downloads}} and BetterNCM
+        shell: pwsh
+        run:
             .\CloudMusic_Installer.exe /S;
             while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 };
             Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile betterncm.dll;
@@ -50,7 +63,7 @@ jobs:
         run:
           If(Test-Path "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt"){
             throw Get-Content "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt";
-          }else{
+          } else{
             Write-Output "Tests passed!"
           }
   
