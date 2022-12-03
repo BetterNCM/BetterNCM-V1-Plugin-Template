@@ -44,3 +44,7 @@ jobs:
           if($ProcessActive -eq $null){
             throw "NCM 2.10.6 Crashed";
           }
+      - uses: OrbitalOwen/desktop-screenshot-action@0.1
+        name: take screenshot
+        with:
+          file-name: 'desktop.jpg'
