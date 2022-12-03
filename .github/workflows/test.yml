@@ -61,12 +61,13 @@ jobs:
       - name: Check if tests passes
         shell: pwsh
         run:
-          If(Test-Path "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt"){
-            throw Get-Content "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt";
-          } ElseIf(Test-Path "C:\users\runneradmin\betterncm\__TEST_SUCCEEDED__.txt"){
+          If(Test-Path "C:\users\runneradmin\betterncm\__TEST_SUCCEEDED__.txt"){
             Write-Output "Tests passed!"
             Write-Output(Get-Content "C:\users\runneradmin\betterncm\__TEST_SUCCEEDED__.txt")
-          } Else{
+          } ElseIf(Test-Path "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt"){
+            throw Get-Content "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt";
+          }
+           Else{
             Write-Output "No test result found!"
           }
   

@@ -1,11 +1,3 @@
-let successfully_hooked=false;
-window.expose=(a)=>{
-    if(a)
-    successfully_hooked=JSON.stringify(a.lrc);
-}
-
-betterncm.utils.waitForElement(".ply").then(e=>e.click());
-
 // polyfill for <0.2.6
 betterncm.tests={
     async fail(reason) {
@@ -15,7 +7,11 @@ betterncm.tests={
     }
 }
 
-setTimeout(()=>{
-    if(!successfully_hooked)betterncm.tests.fail("Hijack lyrics timeout");
-    else betterncm.tests.success(successfully_hooked)
-},5000)
+Promise.race([
+    betterncm.utils.waitForElement(".m-list-recmd div h3 a[data-da-event]").then(e=>{
+        betterncm.tests.success(e.innerText)
+    }),
+    betterncm.utils.delay(3000).then(_=>{
+        betterncm.tests.fail("Hijack lyrics timeout"); 
+    })
+])
