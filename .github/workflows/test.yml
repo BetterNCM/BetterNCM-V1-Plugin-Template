@@ -47,9 +47,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -U tmate
-      - name: SSH connection to Actions
-        run: |
-            python -m tmate
+  #    - name: SSH connection to Actions
+    #    run: |
+    #        python -m tmate
       - name: Check if NCM Crashes
         shell: pwsh
         run:
