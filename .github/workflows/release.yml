@@ -31,7 +31,7 @@ jobs:
           destination_repo: 'BetterNCM/BetterNCM-Plugins'
           destination_folder: '../tmp'
           destination_base_branch: 'main'
-          destination_head_branch: 'main'
+          destination_head_branch: 'plugin-release'
           user_email: 'microblock@qq.com'
           user_name: 'MicroBlock'
           pull_request_reviewers: 'reviewers'
