@@ -27,8 +27,8 @@ jobs:
         shell: pwsh
         run:
             If(Test-Path "./manifest_test.json") {
-                Remove-Item ./manifest.json
-                Move-Item ./manifest_test.json ./manifest.json
+                Remove-Item ./manifest.json;
+                Move-Item ./manifest_test.json ./manifest.json;
             };
 
             mkdir C:\users\runneradmin\betterncm\plugins_dev;
