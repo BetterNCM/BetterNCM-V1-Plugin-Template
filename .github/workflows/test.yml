@@ -27,7 +27,7 @@ jobs:
       - name: Install NCM and BetterNCM
         shell: pwsh
         run:
-            cd ../../
+            cd ../../;
             Invoke-WebRequest https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_2.10.6.200601.exe -OutFile CloudMusic_Installer.exe;
             .\CloudMusic_Installer.exe /S;
             while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 };
