@@ -41,7 +41,7 @@ jobs:
       - name: test
         shell: pwsh
         run:  
-            ls C:\betterncm\plugins_dev;
+            ls C:\betterncm\plugins_dev\BetterNCM-V1-Plugin-Template;
       - name: Check if NCM Crashes
         shell: pwsh
         run:
