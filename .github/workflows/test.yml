@@ -42,7 +42,8 @@ jobs:
         shell: pwsh
         run:
 
-          Start-Sleep 10;
+          Start-Sleep 20;
+          Get-Process cloudmusic;
           $ProcessActive = Get-Process cloudmusic -ErrorAction SilentlyContinue;
           if($ProcessActive -eq $null){
             throw "NCM 2.10.6 Crashed";
