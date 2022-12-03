@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Compatibility Tests
 
 on:
@@ -10,29 +8,27 @@ on:
   release:
     types: [published]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   test:
-    # The type of runner that the job will run on
+    name: Run tests on NCM ${{matrix.ncm-downloads}}
     runs-on: windows-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    strategy:
+      max-parallel: 4
+      matrix:
+        ncm-downloads: 
+              - 2.10.6.200601
+              - 2.10.5.200451
+              - 2.10.4.200380
+              - 2.10.2.200154
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Setter BetterNCM Profile Path
-        shell: pwsh
-        run: "[System.Environment]::SetEnvironmentVariable('BETTERNCM_PROFILE','C:\\betterncm');"
-      - name: Install NCM and BetterNCM
+      - name: Install NCM ${{matrix.ncm-downloads}} and BetterNCM
         shell: pwsh
         run:
             mkdir C:\users\runneradmin\betterncm\plugins_dev;
             cp ./ "C:\users\runneradmin\betterncm\plugins_dev" -recurse -Force;
-            Invoke-WebRequest https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_2.10.6.200601.exe -OutFile CloudMusic_Installer.exe;
+            Invoke-WebRequest "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_${{matrix.ncm-downloads}}.exe" -OutFile CloudMusic_Installer.exe;
             .\CloudMusic_Installer.exe /S;
             while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 };
             Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile betterncm.dll;
@@ -41,17 +37,9 @@ jobs:
       - name: Check if NCM Crashes
         shell: pwsh
         run:
-
-          Start-Sleep 20;
+          Start-Sleep 10;
           Get-Process cloudmusic;
-          $ProcessActive = Get-Process cloudmusic -ErrorAction SilentlyContinue;
-          if($ProcessActive -eq $null){
-            throw "NCM 2.10.6 Crashed";
-            return 1;
-          }else{
-            Write-Output "not crashed nice";
-          }
-      
+  
       - uses: OrbitalOwen/desktop-screenshot-action@0.1
         name: take screenshot
         with:
