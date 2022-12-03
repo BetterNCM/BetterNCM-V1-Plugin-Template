@@ -37,7 +37,7 @@ jobs:
       - name: Check if NCM Crashes
         shell: pwsh
         run:
-          Start-Sleep 10;
+          Start-Sleep 20;
           Get-Process cloudmusic;
   
       - uses: OrbitalOwen/desktop-screenshot-action@0.1
