@@ -35,10 +35,10 @@ jobs:
             Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile betterncm.dll;
             cp ./betterncm.dll "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll" -Force;
             
-      - name: Set up Python 3.7.15
+      - name: Set up Python 3.7.9
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7.15
+          python-version: 3.7.9
 
       - name: Install dependencies
         run: |
