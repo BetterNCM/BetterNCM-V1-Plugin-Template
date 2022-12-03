@@ -37,29 +37,19 @@ jobs:
             while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 };
             Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile betterncm.dll;
             cp ./betterncm.dll "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll" -Force;
-            
-
+            start "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe";
       - name: Check if NCM Crashes
         shell: pwsh
         run:
-          start "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe";
+
           Start-Sleep 10;
           $ProcessActive = Get-Process cloudmusic -ErrorAction SilentlyContinue;
           if($ProcessActive -eq $null){
             throw "NCM 2.10.6 Crashed";
+            return 1;
+          }else{
+            Write-Output "not crashed nice";
           }
-      - name: Set up Python 3.7.9
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7.9
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -U tmate
-      - name: SSH connection to Actions
-        run: |
-            python -m tmate    
       
       - uses: OrbitalOwen/desktop-screenshot-action@0.1
         name: take screenshot
