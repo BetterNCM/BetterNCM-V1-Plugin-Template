@@ -12,6 +12,6 @@ Promise.race([
         betterncm.tests.success(e.innerText)
     }),
     betterncm.utils.delay(3000).then(_=>{
-        betterncm.tests.fail("Hijack lyrics timeout"); 
+        betterncm.tests.fail("Get Name timeout"); 
     })
 ])
