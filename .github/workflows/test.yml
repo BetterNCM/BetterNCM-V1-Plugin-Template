@@ -23,6 +23,8 @@ jobs:
               - 2.10.2.200154
     steps:
       - uses: actions/checkout@v3
+      - name: Test
+        run: ls
       - name: Install NCM ${{matrix.ncm-downloads}} and BetterNCM
         shell: pwsh
         run:
