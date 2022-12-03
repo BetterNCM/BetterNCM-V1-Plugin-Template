@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  release:
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test:
+    # The type of runner that the job will run on
+    runs-on: windows-2019
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Install NCM and BetterNCM
+        shell: pwsh
+        run:             
+            wget https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_2.10.6.200601.exe -O CloudMusic_Installer.exe
+            .\CloudMusic_Installer.exe /S
+            while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 }
+            wget https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -O "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll"
+      - name: Check if NCM Crashes
+        shell: pwsh
+        run:
+          start "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe"
+          Start-Sleep 10
+          $ProcessActive = Get-Process cloudmusic -ErrorAction SilentlyContinue;
+          if($ProcessActive -eq $null){
+            throw "NCM 2.10.6 Crashed"
+          }
