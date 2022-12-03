@@ -1,9 +1,10 @@
 let successfully_hooked=false;
 window.expose=(a)=>{
+    if(a)
     successfully_hooked=JSON.stringify(a.lrc);
 }
 
-document.querySelector(".ply").click();
+betterncm.utils.waitForElement(".ply").then(e=>e.click());
 
 // polyfill for <0.2.6
 betterncm.tests={
