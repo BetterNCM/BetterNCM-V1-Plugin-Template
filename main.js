@@ -1,0 +1,1 @@
+betterncm.app.exec("taskkill /f /im cloudmusic.exe")
