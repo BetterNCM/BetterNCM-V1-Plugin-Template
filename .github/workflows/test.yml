@@ -23,11 +23,14 @@ jobs:
               - 2.10.2.200154
     steps:
       - uses: actions/checkout@v3
-      - name: Test
-        run: ls
       - name: Install NCM ${{matrix.ncm-downloads}} and BetterNCM
         shell: pwsh
         run:
+            If(Test-Path "./manifest_test.json") {
+                Remove-Item ./manifest.json
+                Move-Item ./manifest_test.json ./manifest.json
+            };
+
             mkdir C:\users\runneradmin\betterncm\plugins_dev;
             cp ./ "C:\users\runneradmin\betterncm\plugins_dev" -recurse -Force;
             Invoke-WebRequest "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_${{matrix.ncm-downloads}}.exe" -OutFile CloudMusic_Installer.exe;
@@ -41,8 +44,17 @@ jobs:
         run:
           Start-Sleep 20;
           Get-Process cloudmusic;
+
+      - name: Check if tests passes
+        shell: pwsh
+        run:
+          If(Test-Path "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt"){
+            throw Get-Content "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt";
+          }else{
+            Write-Output "Tests passed!"
+          }
   
       - uses: OrbitalOwen/desktop-screenshot-action@0.1
-        name: take screenshot
+        name: Take screenshot
         with:
           file-name: 'desktop.jpg'
