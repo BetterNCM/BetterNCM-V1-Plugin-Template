@@ -1,4 +1,4 @@
-name: Compatibility Tests
+name: Send PR to plugin market
 
 on:
   push:
