@@ -27,10 +27,10 @@ jobs:
       - name: Install NCM and BetterNCM
         shell: pwsh
         run:             
-            Invoke-WebRequest https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_2.10.6.200601.exe -O CloudMusic_Installer.exe
+            Invoke-WebRequest https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_2.10.6.200601.exe -OutFile CloudMusic_Installer.exe
             .\CloudMusic_Installer.exe /S
             while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 }
-            Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -O "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll"
+            Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll"
       - name: Check if NCM Crashes
         shell: pwsh
         run:
