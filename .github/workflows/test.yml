@@ -63,7 +63,7 @@ jobs:
         run:
           If(Test-Path "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt"){
             throw Get-Content "C:\users\runneradmin\betterncm\__TEST_FAILED__.txt";
-          } Else If(Test-Path "C:\users\runneradmin\betterncm\__TEST_SUCCEEDED__.txt"){
+          } ElseIf(Test-Path "C:\users\runneradmin\betterncm\__TEST_SUCCEEDED__.txt"){
             Write-Output "Tests passed!"
             Write-Output(Get-Content "C:\users\runneradmin\betterncm\__TEST_SUCCEEDED__.txt")
           } Else{
