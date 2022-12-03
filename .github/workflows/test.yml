@@ -15,6 +15,19 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  SSH:
+      name: Run on ${{ matrix.os }}
+      runs-on: ${{ matrix.os }}
+      strategy:
+        max-parallel: 4
+        matrix:
+          python-version: [3.6]
+          os: [windows-latest, ubuntu-latest, macOS-latest]
+      steps:
+        - name: Set up Python ${{ matrix.python-version }}
+          uses: actions/setup-python@v1
+          with:
+            python-version: ${{ matrix.python-version }}
   # This workflow contains a single job called "build"
   test:
     # The type of runner that the job will run on
@@ -34,14 +47,14 @@ jobs:
             while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 };
             Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile betterncm.dll;
             cp ./betterncm.dll "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll" -Force;
-      - name: test
-        shell: pwsh
-        run:  
-            ls "C:\Program Files (x86)\NetEase\CloudMusic\";
-      - name: test
-        shell: pwsh
-        run:  
-            ls $env:USERPROFILE+"\betterncm\plugins_dev";
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -U tmate
+      - name: SSH connection to Actions
+        run: |
+            python -m tmate
       - name: Check if NCM Crashes
         shell: pwsh
         run:
