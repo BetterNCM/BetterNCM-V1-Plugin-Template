@@ -14,9 +14,15 @@
 (同`manifest_test.json`)
 ```json
 {
-    "manifest_version": 1, // manifest版本，必为1
-    "name": "BetterNCMPlugin", // 插件名，不推荐有中文
+    "manifest_version": 1, // manifest版本，必为 1
+    "name": "ExamplePlugin", // 插件名，不推荐有中文
+    "slug": "example-plugin", // 插件唯一识别名 (留空则根据插件名自动生成)
     "version": "0.1.0", // 插件版本，推荐使用语义化版本（https://semver.org/）
+    "author": "Author", // 插件作者
+    "description": "Description of the plugin", // 插件描述
+    "betterncm_version": "^0.2.6", // 依赖的 BetterNCM 版本
+    "preview": "preview.png", // 插件预览图
+    
     "injects": { // 普通注入
         "Main": [  // 网易云主页面
             {
