@@ -1,12 +1,27 @@
 {
     "manifest_version": 1,
-    "name": "BetterNCMPlugin",
+    "name": "ExamplePlugin",
+    "slug": "example-plugin",
     "version": "0.1.0",
+    "author": "Author",
+    "description": "Description of the plugin", 
+    "betterncm_version": "^0.2.6",
+    "preview": "preview.png", 
+    
     "injects": {
-        "Main": [
+        "Main": [ 
             {
-                "file": "main.js"
+                "file": "main.js" 
             }
         ]
+    },
+    "hijacks":{
+        "> 2.10.0 <= 2.10.6":{ 
+            "orpheus://orpheus/pub/core.e5842f1.js":{
+                "type":"replace", 
+                "from":"var o;if(((this.U()||C).from||C).id==t)",
+                "to":";expose(a);var o;if(((this.U()||C).from||C).id==t)"
+            }
+        }
     }
 }
