@@ -14,14 +14,5 @@
                 "file": "main.js" 
             }
         ]
-    },
-    "hijacks":{
-        "> 2.10.0 <= 2.10.6":{ 
-            "orpheus://orpheus/pub/core.e5842f1.js":{
-                "type":"replace", 
-                "from":"var o;if(((this.U()||C).from||C).id==t)",
-                "to":";expose(a);var o;if(((this.U()||C).from||C).id==t)"
-            }
-        }
     }
 }
