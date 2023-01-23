@@ -49,7 +49,7 @@ jobs:
         run:
             .\CloudMusic_Installer.exe /S;
             while (!(Test-Path "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe")) { Start-Sleep 10 };
-            Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/0.2.5/BetterNCMII.dll -OutFile betterncm.dll;
+            Invoke-WebRequest https://github.com/MicroCBer/BetterNCM/releases/download/1.0.0/BetterNCMII.dll -OutFile betterncm.dll;
             cp ./betterncm.dll "C:\Program Files (x86)\NetEase\CloudMusic\msimg32.dll" -Force;
             start "C:\Program Files (x86)\NetEase\CloudMusic\cloudmusic.exe";
       - name: Check if NCM Crashes
